@@ -9,13 +9,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           always-auth: true
           node-version: '14.x'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@autograders'
-      - run: yarn
-      - run: yarn publish
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Bump patch version
+        run: yarn version --new-version patch --no-git-tag-version
+
+      - name: Publish new package
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PKG_TOKEN }}
+
+      - name: Delete oldest version
+        uses: actions/delete-package-versions@v1
+        with:
+          owner: 'autograders'
+          repo: 'eslint-config-react'
+          package-name: 'eslint-config-react'
+          num-old-versions-to-delete: 1
+          token: ${{ secrets.GH_PKG_TOKEN }}
