@@ -22,7 +22,7 @@ jobs:
         run: yarn
 
       - name: Bump patch version
-        run: yarn version --new-version patch --no-git-tag-version
+        run: yarn version --new-version $(node .cmd/get-version.js) --no-git-tag-version
 
       - name: Publish new package
         run: yarn publish

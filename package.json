@@ -1,6 +1,6 @@
 {
   "name": "@autograders/eslint-config-react",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Autograders React ESlint configuration",
   "keywords": [
     "akord",
